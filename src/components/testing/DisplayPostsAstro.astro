@@ -1,0 +1,25 @@
+---
+import { getDatabase, ref, onValue, DataSnapshot } from "firebase/database";
+import { app } from "../../lib/firebase";
+
+type Post= {
+  title: string;
+}
+let posts: Record<string, Post> = {};
+const db = getDatabase(app);
+const postsRef = ref(db, "posts");
+
+onValue(postsRef, (snapshot: DataSnapshot) => {
+  const data = snapshot.val() as Record<string, Post> | null;
+  posts = data || {};
+});
+---
+
+<div>
+  <h2>Posts:</h2>
+  {Object.keys(posts).map((key) => (
+    <div>
+      <h3>{posts[key].title}</h3>
+    </div>
+  ))}
+</div>

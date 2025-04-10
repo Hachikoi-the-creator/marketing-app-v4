@@ -1,0 +1,62 @@
+<script>
+    import { getDatabase, ref, push, set, update } from "firebase/database";
+    import { app } from '../../lib/firebase'; 
+  
+    const database = getDatabase(app);
+  
+    async function createBlogPost(title: string) {
+      const postsRef = ref(database, 'posts');
+      const newPostRef = push(postsRef);
+      const now = new Date().toISOString();
+  
+      try {
+        await set(newPostRef, {
+          title: title,
+          createdAt: now,
+          updatedAt: now,
+        });
+        console.log("Blog post created successfully!");
+      } catch (error) {
+        console.error("Error creating blog post:", error);
+      }
+    }
+  
+    async function updateBlogPost(postId:string, newTitle:string) {
+      const postRef = ref(database, `posts/${postId}`);
+      const now = new Date().toISOString();
+  
+      try {
+        await update(postRef, {
+          title: newTitle,
+          updatedAt: now,
+        });
+        console.log("Blog post updated successfully!");
+      } catch (error) {
+        console.error("Error updating blog post:", error);
+      }
+    }
+  
+    // Example usage (you'll typically trigger these from user interactions):
+    // Example create button.
+    const createButton = document.getElementById("createPost");
+    if(createButton){
+        createButton.addEventListener("click", () => {
+            createBlogPost("Yet another Astro Post");
+        });
+    }
+  
+    //Example update button.
+    const updateButton = document.getElementById("updatePost");
+    if(updateButton){
+        updateButton.addEventListener("click", () => {
+            updateBlogPost("-OMjNs__4d4LW97LA5mm", "Updated Astro Post v777");
+        });
+    }
+  
+  </script>
+  
+  <div>
+    <h1>My Astro Blog</h1>
+    <button id="createPost">Create Post</button>
+    <button id="updatePost">Update Post</button>
+  </div>

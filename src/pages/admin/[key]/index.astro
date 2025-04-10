@@ -1,0 +1,13 @@
+---
+import {
+  getSecret, ADMIN_KEY
+} from 'astro:env/server'
+
+
+const { key } = Astro.params;
+if (key !== getSecret(ADMIN_KEY)) {
+    return Astro.redirect("/login");
+}
+---
+
+<div>Good boi, {key}!</div>
