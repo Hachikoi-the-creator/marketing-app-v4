@@ -1,0 +1,206 @@
+---
+import { Image } from "astro:assets";
+import mountain from "../../images/mountain.jpg";
+import snow from "../../images/snow.jpg";
+import sunset from "../../images/sunset.jpg";
+
+// Define your carousel items with both image and caption
+const carouselItems = [
+  {
+    image: mountain,
+    caption: "Majestic Mountain Views",
+  },
+  {
+    image: snow,
+    caption: "Winter Wonderland",
+  },
+  {
+    image: sunset,
+    caption: "Beautiful Sunset",
+  },
+];
+---
+
+<div class="max-w-full mx-auto relative overflow-hidden border border-red-500">
+  <div class="carousel-track" id="carousel-track">
+    {
+      carouselItems.map((item, index) => (
+        <div class="min-w-full flex-shrink-0 relative" data-carousel-slide>
+          <h2 class="text-center mb-4 text-neutral-700 text-2xl absolute top-0 left-0 w-full">
+            {item.caption}
+          </h2>
+          <Image
+            src={item.image}
+            alt={item.caption}
+            loading={index === 1 ? "eager" : "lazy"}
+            decoding={index === 1 ? "sync" : "async"}
+            class="w-full h-auto object-cover"
+            width={800}
+            height={500}
+          />
+        </div>
+      ))
+    }
+  </div>
+
+  <div class="flex justify-between items-center px-5 mt-4">
+    <button id="prev-button" aria-label="Previous slide">&lt;</button>
+    <div class="carousel-indicators">
+      {
+        carouselItems.map((_, index) => (
+          <button
+            class="indicator-dot"
+            data-index={index}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))
+      }
+    </div>
+    <button id="next-button" aria-label="Next slide">&gt;</button>
+  </div>
+</div>
+
+<style>
+  .carousel-track {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    width: 100%;
+  }
+
+  .carousel-navigation button {
+    background-color: #4a5568;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    z-index: 10;
+  }
+
+  .carousel-navigation button:hover {
+    background-color: #2d3748;
+  }
+
+  .carousel-indicators {
+    display: flex;
+    gap: 8px;
+  }
+
+  .indicator-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #cbd5e0;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+
+  .indicator-dot.active {
+    background-color: #4a5568;
+  }
+</style>
+
+<script>
+  function setupCarousel() {
+    const track = document.getElementById("carousel-track");
+    const slides = document.querySelectorAll("[data-carousel-slide]");
+    const prevButton = document.getElementById("prev-button");
+    const nextButton = document.getElementById("next-button");
+    const indicators = document.querySelectorAll(".indicator-dot");
+    let currentIndex = 0;
+    let intervalId: any;
+    const autoSlideInterval = 3000; // 3 seconds
+
+    // Initialize the carousel
+    function initCarousel() {
+      if (slides.length > 0) {
+        updateSlide(0);
+        startAutoSlide();
+      }
+    }
+
+    // Update the current slide
+    function updateSlide(index: number) {
+      if (!track) return;
+
+      // Update the transform to move to the correct slide
+      track.style.transform = `translateX(-${index * 100}%)`;
+
+      // Remove active class from all indicators
+      indicators.forEach((dot) => dot.classList.remove("active"));
+
+      // Add active class to current indicator
+      indicators[index].classList.add("active");
+
+      currentIndex = index;
+    }
+
+    // Move to the next slide
+    function nextSlide() {
+      const newIndex = (currentIndex + 1) % slides.length;
+      updateSlide(newIndex);
+    }
+
+    // Move to the previous slide
+    function prevSlide() {
+      const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+      updateSlide(newIndex);
+    }
+
+    // Start automatic sliding
+    function startAutoSlide() {
+      stopAutoSlide(); // Clear any existing interval
+      intervalId = setInterval(nextSlide, autoSlideInterval);
+    }
+
+    // Stop automatic sliding
+    function stopAutoSlide() {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    }
+
+    // Event listeners
+    if (nextButton) {
+      nextButton.addEventListener("click", () => {
+        nextSlide();
+        startAutoSlide(); // Reset the timer
+      });
+    }
+
+    if (prevButton) {
+      prevButton.addEventListener("click", () => {
+        prevSlide();
+        startAutoSlide(); // Reset the timer
+      });
+    }
+
+    // Add click handlers to indicators
+    indicators.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        updateSlide(index);
+        startAutoSlide(); // Reset the timer
+      });
+    });
+
+    // Pause auto-sliding when hovering
+    const container = document.querySelector(".carousel-container");
+    if (container) {
+      container.addEventListener("mouseenter", stopAutoSlide);
+      container.addEventListener("mouseleave", startAutoSlide);
+    }
+
+    // Initialize on page load
+    initCarousel();
+  }
+
+  // Run setup on client-side
+  document.addEventListener("DOMContentLoaded", setupCarousel);
+
+  // Re-run setup when the page changes in SPA mode
+  document.addEventListener("astro:page-load", setupCarousel);
+</script>
