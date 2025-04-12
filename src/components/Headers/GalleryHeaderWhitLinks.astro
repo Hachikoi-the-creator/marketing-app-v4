@@ -1,0 +1,243 @@
+---
+import { Image } from "astro:assets";
+import mountain from "../../images/mountain.jpg";
+import snow from "../../images/snow.jpg";
+import sunset from "../../images/sunset.jpg";
+import { ChevronLeft, ChevronRight, Dot } from "lucide-react";
+
+// Define your carousel items with both image and caption
+const carouselItems = [
+  {
+    image: mountain,
+    caption: "Majestic Mountain Views",
+  },
+  {
+    image: snow,
+    caption: "Winter Wonderland",
+  },
+  {
+    image: sunset,
+    caption: "Beautiful Sunset",
+  },
+];
+---
+
+<div class="max-w-full relative overflow-x-hidden">
+  <!-- LU & LI FOR BETTER A11Y -->
+  <div
+    class="carousel-track flex w-full h-full max-h-screen"
+    id="carousel-track"
+  >
+    {
+      carouselItems.map((item, index) => (
+        <ul class="min-w-full flex-shrink-0 relative" data-carousel-slide>
+          <li>
+            <a href="#">
+              <Image
+                src={item.image}
+                alt={item.caption}
+                loading={index === 1 ? "eager" : "lazy"}
+                decoding={index === 1 ? "sync" : "async"}
+                class="w-full object-cover h-full max-h-screen"
+                width={800}
+                height={500}
+              />
+              <span class="absolute bottom-0 left-0 w-full h-[20%] bg-gradient-to-b from-transparent to-background pointer-events-none block" />
+            </a>
+          </li>
+        </ul>
+      ))
+    }
+  </div>
+
+  <div class="flex justify-between items-center">
+    <ChevronLeft
+      id="prev-button"
+      aria-label="Previous slide"
+      className="svg-path-shadow text-white w-14 h-14 text-lg cursor-pointer transition-colors z-10 absolute left-0 top-1/2 -translate-y-1/2 p-2 hover:scale-110"
+    />
+    <ChevronRight
+      id="next-button"
+      aria-label="Next slide"
+      className="svg-path-shadow text-white w-14 h-14 text-lg cursor-pointer transition-colors z-10 absolute right-0 top-1/2 -translate-y-1/2 p-2 hover:scale-110"
+    />
+  </div>
+
+  <div class="w-full flex items-center justify-center absolute bottom-4">
+    <div class="flex gap-2.5">
+      {
+        carouselItems.map((_, index) => (
+          <button
+            class="indicator-dot h-3.5 w-3.5 rounded-full cursor-pointer transition-colors"
+            data-index={index}
+            aria-label={`Go to slide ${index + 1}`}
+          >
+            <Dot className="text-neutral-100 svg-path-shadow" />
+          </button>
+        ))
+      }
+    </div>
+  </div>
+</div>
+
+<style>
+  .carousel-track {
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .svg-path-shadow {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+    transition: transform 0.2s ease;
+  }
+
+  .carousel-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 3rem;
+    height: 3rem;
+    color: white;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .carousel-button:hover {
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .carousel-button.left {
+    left: 0;
+  }
+
+  .carousel-button.right {
+    right: 0;
+  }
+
+  /* gradient on image end */
+  .image-gradient::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 20%;
+    background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.6));
+    pointer-events: none;
+    z-index: 1;
+  }
+</style>
+
+<script>
+  const track = document.getElementById("carousel-track");
+  const slides = document.querySelectorAll(
+    "[data-carousel-slide]"
+  ) as NodeListOf<HTMLDivElement>;
+  const prevButton = document.getElementById("prev-button");
+  const nextButton = document.getElementById("next-button");
+  const indicators = document.querySelectorAll(".indicator-dot");
+  let intervalId: any;
+  const autoSlideInterval = 3000; // 3 seconds
+  let currentIndex = 0;
+
+  // Update the current slide
+  function updateSlide(index: number) {
+    if (!track) return;
+
+    // Get the actual width of a single slide element
+    const slideWidth = slides[0].offsetWidth;
+
+    // Calculate the exact position to slide to
+    const position = index * slideWidth;
+
+    // Use the exact pixel value instead of percentage
+    track.style.transform = `translateX(-${position}px)`;
+
+    // Remove active class from all indicators
+    indicators.forEach((dot) => dot.classList.remove("active"));
+
+    // Add active class to current indicator
+    indicators[index].classList.add("active");
+
+    currentIndex = index;
+  }
+
+  function setupCarousel() {
+    // Initialize the carousel
+    function initCarousel() {
+      if (slides.length > 0) {
+        updateSlide(0);
+        startAutoSlide();
+      }
+    }
+
+    // Move to the next slide
+    function nextSlide() {
+      const newIndex = (currentIndex + 1) % slides.length;
+      updateSlide(newIndex);
+    }
+
+    // Move to the previous slide
+    function prevSlide() {
+      const newIndex = (currentIndex - 1 + slides.length) % slides.length;
+      updateSlide(newIndex);
+    }
+
+    // Start automatic sliding
+    function startAutoSlide() {
+      stopAutoSlide(); // Clear any existing interval
+      intervalId = setInterval(nextSlide, autoSlideInterval);
+    }
+
+    // Stop automatic sliding
+    function stopAutoSlide() {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    }
+
+    // Event listeners
+    if (nextButton) {
+      nextButton.addEventListener("click", () => {
+        nextSlide();
+        startAutoSlide(); // Reset the timer
+      });
+    }
+
+    if (prevButton) {
+      prevButton.addEventListener("click", () => {
+        prevSlide();
+        startAutoSlide(); // Reset the timer
+      });
+    }
+
+    // Add click handlers to indicators
+    indicators.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        updateSlide(index);
+        startAutoSlide(); // Reset the timer
+      });
+    });
+
+    // Pause auto-sliding when hovering
+    const container = document.querySelector(".carousel-container");
+    if (container) {
+      container.addEventListener("mouseenter", stopAutoSlide);
+      container.addEventListener("mouseleave", startAutoSlide);
+    }
+
+    // Initialize on page load
+    initCarousel();
+  }
+
+  // Run setup on client-side
+  document.addEventListener("DOMContentLoaded", setupCarousel);
+
+  // Re-run setup when the page changes in SPA mode
+  document.addEventListener("astro:page-load", setupCarousel);
+
+  window.addEventListener("resize", () => {
+    // Recalculate and update the current slide position
+    const newIndex = (currentIndex + 1) % slides.length;
+    updateSlide(newIndex);
+  });
+</script>

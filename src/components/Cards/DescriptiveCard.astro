@@ -1,0 +1,15 @@
+---
+import { Image } from "astro:assets";
+import snow from "../../images/snow.jpg";
+import { Button } from "../ui/button";
+---
+
+<div class="shadow-md p-4 flex flex-col gap-3 rounded-2xl">
+  <Image src={snow} alt={"placeholder"} class="w-full rounded-2xl shadow-md" />
+  <p>
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt! Magni
+    sed fugit laudantium tenetur quas repellat rem ut est natus eum voluptatum,
+    harum ea, omnis voluptatem animi consectetur, nobis exercitationem ad?
+  </p>
+  <Button> Click me </Button>
+</div>

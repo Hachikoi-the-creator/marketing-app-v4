@@ -1,15 +1,22 @@
 ---
-import GalleryHeader from "@/components/Headers/GalleryHeader.astro";
-import "../styles/global.css";
+import GalleryHeaderWhitLinks from "@/components/Headers/GalleryHeaderWhitLinks.astro";
+import ContainerWrapper from "@/layouts/ContainerWrapper.astro";
+import SectionDescriptiveCards from "@/components/Sections/SectionDescriptiveCards.astro";
+import Divider from "@/components/Etc/Divider.astro";
+import FontCssLayout from "@/layouts/FontsCssLayout.astro";
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-	</head>
-	<body>
-		<main>
-			<GalleryHeader />
-		</main>
-	</body>
-</html>
+<FontCssLayout>
+  <html lang="es">
+    <head>
+      <title>Cominidad Unida</title>
+    </head>
+    <body>
+      <ContainerWrapper>
+        <GalleryHeaderWhitLinks />
+        <Divider />
+        <SectionDescriptiveCards />
+      </ContainerWrapper>
+    </body>
+  </html>
+</FontCssLayout>
