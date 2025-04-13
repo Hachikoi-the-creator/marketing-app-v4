@@ -1,13 +1,15 @@
 ---
 import GalleryHeaderWhitLinks from "@/components/Headers/GalleryHeaderWhitLinks.astro";
 import ContainerWrapper from "@/layouts/ContainerWrapper.astro";
-import SectionDescriptiveCards from "@/components/Sections/SectionDescriptiveCards.astro";
 import Divider from "@/components/Etc/Divider.astro";
 import FontCssLayout from "@/layouts/FontsCssLayout.astro";
+import CardsOrientation from "@/components/testing/CardsOrientation.astro";
 
 import ad1 from "@/images/ad1.jpg";
 import ad2 from "@/images/ad2.jpg";
 import ad3 from "@/images/ad3.jpg";
+import DescriptiveCardsSection from "@/components/Sections/DescriptiveCardsSection.astro";
+import DualCardsSection from "@/components/Sections/DualCardsSection.astro";
 
 const imagesArr = [
   { image: ad1, caption: "ad1" },
@@ -25,7 +27,11 @@ const imagesArr = [
       <ContainerWrapper>
         <GalleryHeaderWhitLinks images={imagesArr} />
         <Divider />
-        <SectionDescriptiveCards />
+        <DescriptiveCardsSection />
+        <Divider />
+        <DualCardsSection />
+        <!-- <CardsOrientation isReversed={false} />
+        <CardsOrientation isReversed={true} /> -->
       </ContainerWrapper>
     </body>
   </html>

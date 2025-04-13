@@ -17,6 +17,8 @@
     </ul>
   </div>
 </nav>
+<!-- Overlay for outside click detection -->
+<div class="menu-overlay"></div>
 
 <style>
   /* Basic Reset */
@@ -111,6 +113,25 @@
     transform: rotate(-45deg);
   }
 
+  /* Overlay for outside click */
+  .menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 99;
+  }
+
+  .menu-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
   /* Responsive Styles */
   @media screen and (max-width: 768px) {
     .nav-links {
@@ -147,19 +168,47 @@
   document.addEventListener("DOMContentLoaded", () => {
     const hamburger = document.querySelector(".hamburger-menu") as HTMLElement;
     const navLinks = document.querySelector(".nav-links") as HTMLElement;
+    const overlay = document.querySelector(".menu-overlay") as HTMLElement;
 
+    // Function to open menu
+    function openMenu() {
+      hamburger.classList.add("active");
+      navLinks.classList.add("active");
+      overlay.classList.add("active");
+      document.body.style.overflow = "hidden"; // Prevent scrolling
+    }
+
+    // Function to close menu
+    function closeMenu() {
+      hamburger.classList.remove("active");
+      navLinks.classList.remove("active");
+      overlay.classList.remove("active");
+      document.body.style.overflow = ""; // Re-enable scrolling
+    }
+
+    // Toggle menu when clicking hamburger
     hamburger.addEventListener("click", () => {
-      hamburger.classList.toggle("active");
-      navLinks.classList.toggle("active");
+      if (hamburger.classList.contains("active")) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
     });
+
+    // Close menu when clicking on the overlay (outside the menu)
+    overlay.addEventListener("click", closeMenu);
 
     // Close menu when clicking on links
     const links = document.querySelectorAll(".nav-links a");
     links.forEach((link) => {
-      link.addEventListener("click", () => {
-        hamburger.classList.remove("active");
-        navLinks.classList.remove("active");
-      });
+      link.addEventListener("click", closeMenu);
+    });
+
+    // Close menu when pressing Escape key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && hamburger.classList.contains("active")) {
+        closeMenu();
+      }
     });
   });
 </script>
