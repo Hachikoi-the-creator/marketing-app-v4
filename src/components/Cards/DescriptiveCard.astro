@@ -4,12 +4,18 @@ import snow from "../../images/snow.jpg";
 import { Button } from "../ui/button";
 ---
 
-<div class="shadow-md p-4 flex flex-col gap-3 rounded-2xl">
+<div class="p-4 flex flex-col gap-3 rounded-2xl">
   <Image src={snow} alt={"placeholder"} class="w-full rounded-2xl shadow-md" />
-  <p>
+  <h4 class="font-bold">Lorem ipsum dolor sit amet consectetur</h4>
+  <p class="text-primary/50">
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt! Magni
-    sed fugit laudantium tenetur quas repellat rem ut est natus eum voluptatum,
-    harum ea, omnis voluptatem animi consectetur, nobis exercitationem ad?
+    sed fugit laudantium tenetur quas repellat rem ut est
   </p>
-  <Button> Click me </Button>
+  <Button className="w-fit font-bold"> Click me </Button>
 </div>
+
+<style>
+  .secondary-bg {
+    background-color: var(--secondary-color);
+  }
+</style>

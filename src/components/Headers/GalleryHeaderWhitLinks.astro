@@ -1,48 +1,39 @@
 ---
+type ImageCaption = {
+  image: ImageMetadata | string;
+  caption: string;
+};
+
+type Props = {
+  images: ImageCaption[];
+};
+
 import { Image } from "astro:assets";
-import mountain from "../../images/mountain.jpg";
-import snow from "../../images/snow.jpg";
-import sunset from "../../images/sunset.jpg";
 import { ChevronLeft, ChevronRight, Dot } from "lucide-react";
 
-// Define your carousel items with both image and caption
-const carouselItems = [
-  {
-    image: mountain,
-    caption: "Majestic Mountain Views",
-  },
-  {
-    image: snow,
-    caption: "Winter Wonderland",
-  },
-  {
-    image: sunset,
-    caption: "Beautiful Sunset",
-  },
-];
+const { images } = Astro.props;
 ---
 
-<div class="max-w-full relative overflow-x-hidden">
+<div class="max-w-full relative overflow-hidden">
   <!-- LU & LI FOR BETTER A11Y -->
   <div
     class="carousel-track flex w-full h-full max-h-screen"
     id="carousel-track"
   >
     {
-      carouselItems.map((item, index) => (
+      images.map((item, index) => (
         <ul class="min-w-full flex-shrink-0 relative" data-carousel-slide>
           <li>
             <a href="#">
+              {/* @ts-expect-error Astro doesnt quite undersatnd this is possible, another fix is a redoundant type check w Image comp on both sides... */}
               <Image
                 src={item.image}
                 alt={item.caption}
                 loading={index === 1 ? "eager" : "lazy"}
                 decoding={index === 1 ? "sync" : "async"}
                 class="w-full object-cover h-full max-h-screen"
-                width={800}
-                height={500}
               />
-              <span class="absolute bottom-0 left-0 w-full h-[20%] bg-gradient-to-b from-transparent to-background pointer-events-none block" />
+              <span class="absolute -bottom-1 left-0 w-full h-[20%] bg-gradient-to-b from-transparent to-white pointer-events-none block" />
             </a>
           </li>
         </ul>
@@ -66,13 +57,13 @@ const carouselItems = [
   <div class="w-full flex items-center justify-center absolute bottom-4">
     <div class="flex gap-2.5">
       {
-        carouselItems.map((_, index) => (
+        images.map((_, index) => (
           <button
             class="indicator-dot h-3.5 w-3.5 rounded-full cursor-pointer transition-colors"
             data-index={index}
             aria-label={`Go to slide ${index + 1}`}
           >
-            <Dot className="text-neutral-100 svg-path-shadow" />
+            <Dot className="accent-text svg-path-shadow" />
           </button>
         ))
       }
@@ -125,6 +116,10 @@ const carouselItems = [
     pointer-events: none;
     z-index: 1;
   }
+
+  .accent-text {
+    color: var(--accent-color);
+  }
 </style>
 
 <script>
@@ -135,8 +130,8 @@ const carouselItems = [
   const prevButton = document.getElementById("prev-button");
   const nextButton = document.getElementById("next-button");
   const indicators = document.querySelectorAll(".indicator-dot");
-  let intervalId: any;
-  const autoSlideInterval = 3000; // 3 seconds
+  let intervalId: NodeJS.Timeout;
+  const autoSlideInterval = 6000; // 3 seconds
   let currentIndex = 0;
 
   // Update the current slide
@@ -219,9 +214,9 @@ const carouselItems = [
     });
 
     // Pause auto-sliding when hovering
-    const container = document.querySelector(".carousel-container");
+    const container = document.querySelector("#carousel-container");
     if (container) {
-      container.addEventListener("mouseenter", stopAutoSlide);
+      // container.addEventListener("mouseenter", stopAutoSlide);
       container.addEventListener("mouseleave", startAutoSlide);
     }
 

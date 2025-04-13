@@ -4,16 +4,26 @@ import ContainerWrapper from "@/layouts/ContainerWrapper.astro";
 import SectionDescriptiveCards from "@/components/Sections/SectionDescriptiveCards.astro";
 import Divider from "@/components/Etc/Divider.astro";
 import FontCssLayout from "@/layouts/FontsCssLayout.astro";
+
+import ad1 from "@/images/ad1.jpg";
+import ad2 from "@/images/ad2.jpg";
+import ad3 from "@/images/ad3.jpg";
+
+const imagesArr = [
+  { image: ad1, caption: "ad1" },
+  { image: ad2, caption: "ad2" },
+  { image: ad3, caption: "ad3" },
+];
 ---
 
 <FontCssLayout>
   <html lang="es">
     <head>
-      <title>Cominidad Unida</title>
+      <title>Comunidad Unida</title>
     </head>
     <body>
       <ContainerWrapper>
-        <GalleryHeaderWhitLinks />
+        <GalleryHeaderWhitLinks images={imagesArr} />
         <Divider />
         <SectionDescriptiveCards />
       </ContainerWrapper>

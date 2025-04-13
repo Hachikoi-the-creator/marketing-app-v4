@@ -2,8 +2,16 @@
 import "@fontsource-variable/inter";
 import "@fontsource/poppins";
 import "../styles/global.css";
+import Navbar from "@/components/Etc/Navbar.astro";
 ---
 
 <>
+  <Navbar />
   <slot />
 </>
+
+<style is:global>
+  body {
+    font-family: "Inter", sans-serif;
+  }
+</style>
