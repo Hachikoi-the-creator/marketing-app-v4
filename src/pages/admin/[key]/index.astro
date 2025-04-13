@@ -1,12 +1,15 @@
 ---
-import {
-  getSecret, ADMIN_KEY
-} from 'astro:env/server'
-
-
 const { key } = Astro.params;
-if (key !== getSecret(ADMIN_KEY)) {
-    return Astro.redirect("/login");
+if (key !== import.meta.env.ADMIN_KEY) {
+  return Astro.redirect("/login");
+}
+
+export function getStaticPaths() {
+  return [
+    { params: { key: "clifford" } },
+    { params: { key: "rover" } },
+    { params: { key: "spot" } },
+  ];
 }
 ---
 
