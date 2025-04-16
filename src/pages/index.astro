@@ -10,6 +10,7 @@ import ad2 from "@/images/ad2.jpg";
 import ad3 from "@/images/ad3.jpg";
 import DescriptiveCardsSection from "@/components/Sections/DescriptiveCardsSection.astro";
 import DualCardsSection from "@/components/Sections/DualCardsSection.astro";
+import Footer from "@/components/Etc/Footer.astro";
 
 const imagesArr = [
   { image: ad1, caption: "ad1" },
@@ -30,9 +31,9 @@ const imagesArr = [
         <DescriptiveCardsSection />
         <Divider />
         <DualCardsSection />
-        <!-- <CardsOrientation isReversed={false} />
-        <CardsOrientation isReversed={true} /> -->
       </ContainerWrapper>
+      <Divider />
+      <Footer />
     </body>
   </html>
 </FontCssLayout>
