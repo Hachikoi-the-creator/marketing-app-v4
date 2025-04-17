@@ -2,8 +2,6 @@
 import GalleryHeaderWhitLinks from "@/components/Headers/GalleryHeaderWhitLinks.astro";
 import ContainerWrapper from "@/layouts/ContainerWrapper.astro";
 import Divider from "@/components/Etc/Divider.astro";
-import FontCssLayout from "@/layouts/FontsCssLayout.astro";
-import CardsOrientation from "@/components/testing/CardsOrientation.astro";
 
 import ad1 from "@/images/ad1.jpg";
 import ad2 from "@/images/ad2.jpg";
@@ -12,28 +10,63 @@ import DescriptiveCardsSection from "@/components/Sections/DescriptiveCardsSecti
 import DualCardsSection from "@/components/Sections/DualCardsSection.astro";
 import Footer from "@/components/Etc/Footer.astro";
 
+// PLACEHOLDER DB FETCH DATA FOR DYNAMIC CONTENT
+
+import snow from "@/images/snow.jpg";
+import type { Card } from "@/components/Cards/DescriptiveCard.astro";
+import GlobalLayout from "@/layouts/GlobalLayout.astro";
 const imagesArr = [
   { image: ad1, caption: "ad1" },
   { image: ad2, caption: "ad2" },
   { image: ad3, caption: "ad3" },
 ];
+const cardsContent: Card[] = [
+  {
+    title: "Card 1",
+    description:
+      "Detailed description for card 1. This is an extended description that provides more context and information about the card.",
+    buttontext: "Ver más",
+    image: snow,
+    imageAlt: "Image for Card 1",
+  },
+
+  {
+    title: "Card 2",
+    description:
+      "Detailed description for card 2. This is an extended description that provides more context and information about the card.",
+    buttontext: "Ver más",
+    image: snow,
+    imageAlt: "Image for Card 2",
+  },
+  {
+    title: "Card 3",
+    description:
+      "Detailed description for card 3. This is an extended description that provides more context and information about the card.",
+    buttontext: "Ver más",
+    image: snow,
+    imageAlt: "Image for Card 3",
+  },
+  {
+    title: "Card 4",
+    description:
+      "Detailed description for card 4. This is an extended description that provides more context and information about the card.",
+    buttontext: "Ver más",
+    image: snow,
+    imageAlt: "Image for Card 4",
+  },
+];
 ---
 
-<FontCssLayout>
-  <html lang="es">
-    <head>
-      <title>Comunidad Unida</title>
-    </head>
-    <body>
-      <ContainerWrapper>
-        <GalleryHeaderWhitLinks images={imagesArr} />
-        <Divider />
-        <DescriptiveCardsSection />
-        <Divider />
-        <DualCardsSection />
-      </ContainerWrapper>
+<GlobalLayout>
+  <body>
+    <ContainerWrapper>
+      <GalleryHeaderWhitLinks images={imagesArr} />
       <Divider />
-      <Footer />
-    </body>
-  </html>
-</FontCssLayout>
+      <DescriptiveCardsSection cardsData={cardsContent} />
+      <Divider />
+      <DualCardsSection />
+    </ContainerWrapper>
+    <Divider />
+    <Footer />
+  </body>
+</GlobalLayout>

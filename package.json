@@ -26,8 +26,12 @@
     "lucide-react": "^0.487.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "simple-icons": "^14.12.2",
     "tailwind-merge": "^3.2.0",
     "tailwindcss": "^4.1.3",
     "tw-animate-css": "^1.2.5"
+  },
+  "devDependencies": {
+    "@types/simple-icons": "^5.8.0"
   }
 }

@@ -1,0 +1,11 @@
+---
+type Props = {
+  iconName: string;
+  iconAlt: string;
+};
+
+const { iconName, iconAlt } = Astro.props;
+const url = `https://cdn.simpleicons.org/${iconName}`;
+---
+
+<img src={url} alt={iconAlt} width={24} height={24} />;

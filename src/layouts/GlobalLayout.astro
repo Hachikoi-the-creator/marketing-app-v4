@@ -1,0 +1,27 @@
+---
+import "@fontsource-variable/inter";
+import "@fontsource/poppins";
+import "../styles/global.css";
+import Navbar from "@/components/Etc/Navbar.astro";
+import Footer from "@/components/Etc/Footer.astro";
+---
+
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Comunidad Unida" />
+    <meta name="author" content="Comunidad Unida" />
+    <meta name="keywords" content="Comunidad Unida, comunidad, unida" />
+    <link rel="icon" href="@/images/favicon.ico" type="image/x-icon" />
+    <title>Comunidad Unida</title>
+  </head>
+  <Navbar />
+  <slot />
+</html>
+
+<style is:global>
+  body {
+    font-family: "Inter", sans-serif;
+  }
+</style>
