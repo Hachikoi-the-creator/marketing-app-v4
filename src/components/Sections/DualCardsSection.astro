@@ -1,17 +1,35 @@
 ---
-import { BriefcaseBusiness } from "lucide-react";
 import SectionTitle from "../Titles/SectionTitle.astro";
-import DualCards from "../Cards/DualCards.astro";
+import DualCards, { type ListItem } from "../Cards/DualCards.astro";
+
+export type DualCard = {
+  title: string;
+  description: string;
+  isReversed: boolean;
+  listItems: ListItem[];
+};
+
+type Props = {
+  title: string;
+  description: string;
+  cardsContent: DualCard[];
+};
+
+const { title, description, cardsContent } = Astro.props;
 ---
 
 <section class="container mx-auto p-4 space-y-14">
-  <SectionTitle
-    title="Ayuda a la comunidad"
-    description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt! Magni sed fugit laudantium tenetur quas repellat rem ut est"
-  />
+  <SectionTitle title={title} description={description} />
   <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-    <DualCards isReversed={false} />
-    <DualCards isReversed={true} />
+    {
+      cardsContent.map((e) => (
+        <DualCards
+          isReversed={e.isReversed}
+          title={e.title}
+          itemsArray={e.listItems}
+        />
+      ))
+    }
   </div>
 </section>
 

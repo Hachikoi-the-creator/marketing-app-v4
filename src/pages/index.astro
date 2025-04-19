@@ -10,8 +10,7 @@ import DescriptiveCardsSection from "@/components/Sections/DescriptiveCardsSecti
 import DualCardsSection from "@/components/Sections/DualCardsSection.astro";
 import Footer from "@/components/Etc/Footer.astro";
 
-// PLACEHOLDER DB FETCH DATA FOR DYNAMIC CONTENT
-
+//? PLACEHOLDER DB FETCH DATA FOR DYNAMIC CONTENT
 import snow from "@/images/snow.jpg";
 import type { Card } from "@/components/Cards/DescriptiveCard.astro";
 import GlobalLayout from "@/layouts/GlobalLayout.astro";
@@ -20,6 +19,7 @@ const imagesArr = [
   { image: ad2, caption: "ad2" },
   { image: ad3, caption: "ad3" },
 ];
+// first section comp
 const cardsContent: Card[] = [
   {
     title: "Card 1",
@@ -55,6 +55,69 @@ const cardsContent: Card[] = [
     imageAlt: "Image for Card 4",
   },
 ];
+const descriptiveCardsData = {
+  title: "Ayuda a la mujer",
+  description:
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt! Magni sed fugit laudantium tenetur quas repellat rem ut est natus eum voluptatum",
+  cardsContent: cardsContent,
+};
+// second section comp
+const repeatedListItems = [
+  {
+    title: "Ejemplo 1 de lo que hacemos",
+    description:
+      "lorem ipsum dolor sit amet consectetur adipisicing elit adipisicing elit tenetur quas repellat rem ut est natus eum voluptatum",
+    iconName: "github",
+  },
+  {
+    title: "Ejemplo 2 de lo que hacemos",
+    description:
+      "lorem ipsum dolor sit amet consectetur adipisicing elit adipisicing elit tenetur quas repellat rem ut est natus eum voluptatum",
+    iconName: "github",
+  },
+  {
+    title: "Ejemplo 3 de lo que hacemos",
+    description:
+      "lorem ipsum dolor sit amet consectetur adipisicing elit adipisicing elit tenetur quas repellat rem ut est natus eum voluptatum",
+    iconName: "github",
+  },
+  {
+    title: "Ejemplo 4 de lo que hacemos",
+    description:
+      "lorem ipsum dolor sit amet consectetur adipisicing elit adipisicing elit tenetur quas repellat rem ut est natus eum voluptatum",
+    iconName: "github",
+  },
+];
+
+const repeatedCardData = {
+  title: "Lorem ipsum dolor sit amet consectetur",
+  description:
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt! Magni sed fugit laudantium tenetur quas repellat rem ut est natus eum voluptatum",
+  isReversed: false,
+  listItems: repeatedListItems,
+};
+
+const dualCardsData = {
+  title: "Ayuda a la comunidad",
+  description:
+    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt! Magni sed fugit laudantium tenetur quas repellat rem ut est natus eum voluptatum",
+  cardsContent: [
+    {
+      title: "Lorem ipsum dolor sit amet consectetur",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt! Magni sed fugit laudantium tenetur quas repellat rem ut est natus eum voluptatum",
+      isReversed: false,
+      listItems: repeatedListItems,
+    },
+    {
+      title: "Lorem ipsum dolor sit amet consectetur",
+      description:
+        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt! Magni sed fugit laudantium tenetur quas repellat rem ut est natus eum voluptatum",
+      isReversed: true,
+      listItems: repeatedListItems,
+    },
+  ],
+};
 ---
 
 <GlobalLayout>
@@ -62,9 +125,17 @@ const cardsContent: Card[] = [
     <ContainerWrapper>
       <GalleryHeaderWhitLinks images={imagesArr} />
       <Divider />
-      <DescriptiveCardsSection cardsData={cardsContent} />
+      <DescriptiveCardsSection
+        title={descriptiveCardsData.title}
+        description={descriptiveCardsData.description}
+        cardsData={descriptiveCardsData.cardsContent}
+      />
       <Divider />
-      <DualCardsSection />
+      <DualCardsSection
+        title={dualCardsData.title}
+        description={dualCardsData.description}
+        cardsContent={dualCardsData.cardsContent}
+      />
     </ContainerWrapper>
     <Divider />
     <Footer />

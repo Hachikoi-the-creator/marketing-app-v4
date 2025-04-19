@@ -8,7 +8,11 @@ import DynamicIcons from "./DynamicIcons.astro";
   >
     <!-- Logo & Address -->
     <div>
-      <img src="/your-logo.svg" alt="Logo" class="w-32 mb-4" />
+      <img
+        src={`https://cdn.simpleicons.org/gitlab`}
+        alt="Logo"
+        class="w-24 mb-4"
+      />
       <p class="text-sm leading-relaxed">
         123 Main Street<br />
         City, Country 45678<br />
@@ -25,7 +29,6 @@ import DynamicIcons from "./DynamicIcons.astro";
   </div>
 
   <div class="mt-8 text-center text-xs text-gray-500">
-    <DynamicIcons iconName="github" iconAlt="GitHub" />
     © 2025 Your Company. All rights reserved.
   </div>
 </footer>

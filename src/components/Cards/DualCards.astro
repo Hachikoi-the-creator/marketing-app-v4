@@ -1,11 +1,17 @@
 ---
-import { BriefcaseBusiness } from "lucide-react";
+export type ListItem = {
+  title: string;
+  description: string;
+  iconName: string;
+};
 
 type Props = {
   isReversed: boolean;
+  title: string;
+  itemsArray: ListItem[];
 };
 
-const isReversed = Astro.props.isReversed;
+const { title, itemsArray, isReversed } = Astro.props;
 ---
 
 <!-- dark section subtitle -->
@@ -13,43 +19,30 @@ const isReversed = Astro.props.isReversed;
   class={`${isReversed ? "order-2" : "order-1"} bg-black rounded-2xl text-white grid items-center`}
 >
   <h4 class="font-bold text-xl text-center px-8 block h-max">
-    Lorem ipsum dolor sit amet consectetur
+    {title}
   </h4>
 </div>
 <!-- desc -->
 <div class={isReversed ? "order-1" : "order-2"}>
   <div class="text-center">
     <ul class="space-y-4">
-      <li>
-        <p class="flex gap-2 font-bold">
-          <span> <BriefcaseBusiness /> </span> Lorem ipsum dolor sit amet consectetur
-        </p>
-        <p class="text-primary/50 pl-8 text-left">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt!
-          Magni sed fugit laudantium tenetur quas repellat rem ut est natus eum
-          voluptatum
-        </p>
-      </li>
-      <li>
-        <p class="flex gap-2 font-bold">
-          <span> <BriefcaseBusiness /> </span> Lorem ipsum dolor sit amet
-        </p>
-        <p class="text-primary/50 pl-8 text-left">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt!
-          Magni sed fugit laudantium tenetur quas repellat rem ut est natus eum
-          voluptatum
-        </p>
-      </li>
-      <li>
-        <p class="flex gap-2 font-bold">
-          <span> <BriefcaseBusiness /> </span> Lorem ipsum dolor sit amet vitalik
-        </p>
-        <p class="text-primary/50 pl-8 text-left">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum, sunt!
-          Magni sed fugit laudantium tenetur quas repellat rem ut est natus eum
-          voluptatum
-        </p>
-      </li>
+      {
+        itemsArray.map((item) => (
+          <li class="flex flex-col gap-2">
+            <p class="font-bold">
+              <span>
+                <img
+                  src={`https://cdn.simpleicons.org/${item.iconName}`}
+                  alt={item.description}
+                  class="w-2 h-2 inline-block mr-2"
+                />
+              </span>
+              {item.title}
+            </p>
+            <p class="text-primary/50">{item.description}</p>
+          </li>
+        ))
+      }
     </ul>
   </div>
 </div>
